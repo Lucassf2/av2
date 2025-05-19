@@ -1,4 +1,4 @@
-🍕 YumBlazor - A Delicious Blazor E-Commerce Experience
+# 🍕 YumBlazor – A Delicious Blazor E-Commerce Experience
 
 <div align="center">
   <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/1.png?raw=true" width="90%" alt="YumBlazor Hero Banner">
@@ -9,30 +9,23 @@
 ![Stripe](https://img.shields.io/badge/Payments-Stripe-blueviolet?style=for-the-badge&logo=stripe)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
 
-## ✨ Visual Showcase
+# ✨ Visual Showcase
 
-### 🏡 Home & Navigation
+# 🏡 Home & Navigation
 <div align="center">
   <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/1.png?raw=true" width="45%" style="margin:5px;">
   <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/2.png?raw=true" width="45%" style="margin:5px;">
   <p><em>Modern homepage with featured products and category navigation</em></p>
 </div>
 
-### 🛒 Order Workflow
+# 🛒 Order Workflow
 <div align="center">
-  <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <div style="margin: 10px;">
-      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/16c9a64e1f4e8b3b90c389cbd2e6df0f67ec8457/cart.png?raw=true" width="90%" alt="Shopping Cart">
-      <p><em>Interactive Shopping Cart</em></p>
-    </div>
-      <div style="margin: 10px;">
-      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/5.png?raw=true" width="95%" alt="Orders List">
-      <p><em>Order details</em></p>
-    </div>
-  </div>
+  <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/16c9a64e1f4e8b3b90c389cbd2e6df0f67ec8457/cart.png?raw=true" width="45%" alt="Shopping Cart">
+  <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/5.png?raw=true" width="45%" alt="Order Details">
+  <p><em>Interactive shopping cart and real-time order tracking</em></p>
 </div>
 
-### 📊 Admin Management
+# 📊 Admin Management
 <div align="center">
   <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
         <div style="margin: 10px;">
