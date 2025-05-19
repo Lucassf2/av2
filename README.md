@@ -1,4 +1,4 @@
-# 🍕 YumBlazor - A Delicious Blazor E-Commerce Experience
+🍕 YumBlazor - A Delicious Blazor E-Commerce Experience
 
 <div align="center">
   <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/1.png?raw=true" width="90%" alt="YumBlazor Hero Banner">
@@ -18,57 +18,58 @@
   <p><em>Modern homepage with featured products and category navigation</em></p>
 </div>
 
-### 🛍️ Product Management
+### 🛒 Order Workflow
 <div align="center">
   <div style="display: flex; flex-wrap: wrap; justify-content: center;">
     <div style="margin: 10px;">
-      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/3.png?raw=true" width="90%" alt="Product List">
-      <p><em>Product Catalog</em></p>
+      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/16c9a64e1f4e8b3b90c389cbd2e6df0f67ec8457/cart.png?raw=true" width="90%" alt="Shopping Cart">
+      <p><em>Interactive Shopping Cart</em></p>
     </div>
-    <div style="margin: 10px;">
-      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/6.png?raw=true" width="90%" alt="Update Product">
-      <p><em>Product Editor</em></p>
+      <div style="margin: 10px;">
+      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/5.png?raw=true" width="95%" alt="Orders List">
+      <p><em>Order details</em></p>
     </div>
   </div>
 </div>
 
-### 🛒 Order Workflow
-<div align="center">
-  <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/4.png?raw=true" width="70%" alt="Order Summary">
-  <p><em>Smooth checkout process with order summary</em></p>
-</div>
-
-### 📊 Admin Dashboard
+### 📊 Admin Management
 <div align="center">
   <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-    <div style="margin: 10px;">
-      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/5.png?raw=true" width="95%" alt="Orders List">
-      <p><em>Order Management</em></p>
+        <div style="margin: 10px;">
+      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/4.png?raw=true" width="90%" alt="Order Summary">
+      <p><em>orders list and status</em></p>
     </div>
     <div style="margin: 10px;">
       <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/7.png?raw=true" width="95%" alt="Order Details">
-      <p><em>Order Details View</em></p>
+      <p><em>update product</em></p>
     </div>
     <div style="margin: 10px;">
       <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/8.png?raw=true" width="95%" alt="Delete Confirmation">
-      <p><em>Admin Controls</em></p>
+      <p><em>Delete Product</em></p>
+    </div>
+       <div style="margin: 10px;">
+      <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/c39d1dd6f127466fb69b49c7ad620865fe6b83d7/6.png?raw=true" width="90%" alt="Update Product">
+      <p><em>Product Editor</em></p>
+    </div>
+    <div style="margin: 10px;">
+       <img src="https://github.com/MohammedBagowabair/YumBlazor/blob/37e96095d3a3cac22f94effcdda1ef4dfd2b454b/category.png" width="95%" alt="Delete Confirmation">
+      <p><em>Category Editor</em></p>
     </div>
   </div>
 </div>
 
 ## 🚀 Key Features
-- **Full E-Commerce Suite**: Product catalog, cart, checkout, and order tracking
-- **Admin Portal**: Complete product and order management
-- **Modern UI**: Clean interface with Radzen Blazor components
-- **Secure Payments**: Integrated Stripe payment processing
-- **Responsive Design**: Perfectly adapted for all devices
+- **Complete Shopping Experience**: Browse → Cart → Checkout → Order Tracking
+- **Interactive Cart System**: Real-time updates and quantity adjustments
+- **Admin Managment**: Full control over products, orders, and users
+- **Responsive UI**: Optimized for all device sizes
 
 ## 💻 Technology Stack
 ```mermaid
 pie
     title Tech Stack Distribution
     "Blazor WebAssembly" : 35
-    ".NET 9 API" : 30
+    ".NET 9" : 30
     "Entity Framework Core" : 20
     "SQL Server" : 10
     "Radzen Components" : 5
