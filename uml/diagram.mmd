@@ -1,0 +1,48 @@
+```mermaid
+classDiagram
+    class Product {
+        +int Id
+        +string Name
+        +decimal Price
+        +string? Description
+    }
+    class ShoppingCart {
+        +int Id
+        +string UserId
+        +int ProductId
+        +int Count
+    }
+    class OrderHeader {
+        +int Id
+        +string UserId
+        +double OrderTotal
+        +ICollection~OrderDetail~ OrderDetails
+    }
+    class OrderDetail {
+        +int Id
+        +int OrderId
+        +int ProductId
+        +int Count
+    }
+    class IPaymentService {
+        <<interface>>
+        +Task~string~ ProcessPaymentAsync(OrderHeader order)
+    }
+    class PagamentoPixService
+    class PagamentoCartaoService
+
+    class ICalculadoraFrete {
+        <<interface>>
+        +decimal CalcularFrete(decimal subtotal, string region)
+    }
+    class FretePadrao
+    class FreteExpresso
+
+    Product "1" <-- "0..*" ShoppingCart : contains
+    OrderHeader "1" o-- "1..*" OrderDetail
+    OrderDetail "1" --> "1" Product
+    IPaymentService <|.. PagamentoPixService
+    IPaymentService <|.. PagamentoCartaoService
+    ICalculadoraFrete <|.. FretePadrao
+    ICalculadoraFrete <|.. FreteExpresso
+```

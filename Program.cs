@@ -27,6 +27,14 @@ builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<SharedStateService>();
 
+// --- Adicionado: serviços de pagamento, frete, DTOs e exceções ---
+builder.Services.AddScoped<HamburgueriaBlazor.Services.Payments.IPaymentService, HamburgueriaBlazor.Services.Payments.PagamentoPixService>();
+builder.Services.AddScoped<HamburgueriaBlazor.Services.Payments.PagamentoCartaoService>();
+builder.Services.AddScoped<HamburgueriaBlazor.Services.Frete.ICalculadoraFrete, HamburgueriaBlazor.Services.Frete.FretePadrao>();
+// Registre FreteExpresso quando quiser usar frete expresso:
+// builder.Services.AddScoped<ICalculadoraFrete, FreteExpresso>();
+
+
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
