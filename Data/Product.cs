@@ -1,8 +1,7 @@
-﻿using Microsoft.CodeAnalysis.Options;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YumBlazor.Data
+namespace HamburgueriaBlazor.Data
 {
     public class Product
     {

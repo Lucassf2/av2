@@ -4,17 +4,19 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using System.Text.Json;
-using YumBlazor.Components.Account.Pages;
-using YumBlazor.Components.Account.Pages.Manage;
-using YumBlazor.Data;
+using System.Linq;
+using HamburgueriaBlazor.Components.Account.Pages;
+using HamburgueriaBlazor.Components.Account.Pages.Manage;
+using HamburgueriaBlazor.Data;
 
 namespace Microsoft.AspNetCore.Routing
 {
     internal static class IdentityComponentsEndpointRouteBuilderExtensions
     {
-        // These endpoints are required by the Identity Razor components defined in the /Components/Account/Pages directory of this project.
         public static IEndpointConventionBuilder MapAdditionalIdentityEndpoints(this IEndpointRouteBuilder endpoints)
         {
             ArgumentNullException.ThrowIfNull(endpoints);
@@ -27,17 +29,16 @@ namespace Microsoft.AspNetCore.Routing
                 [FromForm] string provider,
                 [FromForm] string returnUrl) =>
             {
-                IEnumerable<KeyValuePair<string, StringValues>> query = [
-                    new("ReturnUrl", returnUrl),
-                    new("Action", ExternalLogin.LoginCallbackAction)];
+                var query = new List<KeyValuePair<string, StringValues>>()
+                {
+                    new KeyValuePair<string, StringValues>("ReturnUrl", returnUrl),
+                    new KeyValuePair<string, StringValues>("Action", ExternalLogin.LoginCallbackAction)
+                };
 
-                var redirectUrl = UriHelper.BuildRelative(
-                    context.Request.PathBase,
-                    "/Account/ExternalLogin",
-                    QueryString.Create(query));
+                var redirectUrl = QueryString.Create(query);
 
-                var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-                return TypedResults.Challenge(properties, [provider]);
+                var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl.ToString());
+                return TypedResults.Challenge(properties, new List<string> { provider });
             });
 
             accountGroup.MapPost("/Logout", async (
@@ -59,13 +60,10 @@ namespace Microsoft.AspNetCore.Routing
                 // Clear the existing external cookie to ensure a clean login process
                 await context.SignOutAsync(IdentityConstants.ExternalScheme);
 
-                var redirectUrl = UriHelper.BuildRelative(
-                    context.Request.PathBase,
-                    "/Account/Manage/ExternalLogins",
-                    QueryString.Create("Action", ExternalLogins.LinkLoginCallbackAction));
+                QueryString redirectUrl = QueryString.Create("Action", ExternalLogins.LinkLoginCallbackAction);
 
-                var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, signInManager.UserManager.GetUserId(context.User));
-                return TypedResults.Challenge(properties, [provider]);
+                var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl.ToString(), signInManager.UserManager.GetUserId(context.User));
+                return TypedResults.Challenge(properties, new List<string> { provider });
             });
 
             var loggerFactory = endpoints.ServiceProvider.GetRequiredService<ILoggerFactory>();

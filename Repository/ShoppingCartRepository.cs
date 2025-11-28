@@ -1,27 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YumBlazor.Data;
-using YumBlazor.Repository.IRepository;
+using HamburgueriaBlazor.Data;
+using HamburgueriaBlazor.Repository.IRepository;
 
-namespace YumBlazor.Repository
+namespace HamburgueriaBlazor.Repository
 {
 	public class ShoppingCartRepository : IShoppingCartRepository
 	{
-		private readonly ApplicationDbContext _db;
-		public ShoppingCartRepository(ApplicationDbContext db)
+		private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+		public ShoppingCartRepository(IDbContextFactory<ApplicationDbContext> contextFactory)
 		{
-			_db = db;
+			_contextFactory = contextFactory;
 		}
 
 		public async Task<bool> ClearCartAsync(string? userId)
 		{
-			var cartItems = await _db.ShoppingCart.Where(u => u.UserId == userId).ToListAsync();
-			_db.ShoppingCart.RemoveRange(cartItems);
-			return await _db.SaveChangesAsync() > 0;
+			using var db = _contextFactory.CreateDbContext();
+			var cartItems = await db.ShoppingCart.Where(u => u.UserId == userId).ToListAsync();
+			db.ShoppingCart.RemoveRange(cartItems);
+			return await db.SaveChangesAsync() > 0;
 		}
 
 		public async Task<IEnumerable<ShoppingCart>> GetAllAsync(string? userId)
 		{
-			return await _db.ShoppingCart.Where(u => u.UserId == userId).Include(u => u.Product).ToListAsync();
+			using var db = _contextFactory.CreateDbContext();
+			return await db.ShoppingCart.Where(u => u.UserId == userId).Include(u => u.Product).ToListAsync();
 		}
 
 		public async Task<bool> UpdateCartAsync(string userId, int productId, int updateBy)
@@ -31,7 +33,9 @@ namespace YumBlazor.Repository
 				return false;
 			}
 
-			var cart = await _db.ShoppingCart.FirstOrDefaultAsync(u => u.UserId == userId && u.ProductId == productId);
+			using var db = _contextFactory.CreateDbContext();
+
+			var cart = await db.ShoppingCart.FirstOrDefaultAsync(u => u.UserId == userId && u.ProductId == productId);
 			if (cart == null)
 			{
 				cart = new ShoppingCart
@@ -41,23 +45,24 @@ namespace YumBlazor.Repository
 					Count = updateBy
 				};
 
-				await _db.ShoppingCart.AddAsync(cart);
+				await db.ShoppingCart.AddAsync(cart);
 			}
 			else
 			{
 				cart.Count += updateBy;
 				if (cart.Count <= 0)
 				{
-					_db.ShoppingCart.Remove(cart);
+					db.ShoppingCart.Remove(cart);
 				}
 			}
-			return await _db.SaveChangesAsync() > 0;
+			return await db.SaveChangesAsync() > 0;
 		}
 
         public async Task<int> GetTotalCartCartCountAsync(string? userId)
         {
+            using var db = _contextFactory.CreateDbContext();
             int cartCount = 0;
-            var cartItems = await _db.ShoppingCart.Where(u => u.UserId == userId).ToListAsync();
+            var cartItems = await db.ShoppingCart.Where(u => u.UserId == userId).ToListAsync();
 
             foreach (var item in cartItems)
             {
@@ -65,5 +70,5 @@ namespace YumBlazor.Repository
             }
             return cartCount;
         }
-    }
+	}
 }

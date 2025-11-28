@@ -1,46 +1,50 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YumBlazor.Data;
-using YumBlazor.Repository.IRepository;
+using HamburgueriaBlazor.Data;
+using HamburgueriaBlazor.Repository.IRepository;
 
-namespace YumBlazor.Repository
+namespace HamburgueriaBlazor.Repository
 {
     public class OrderRepository: IOrderRepository
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
 
-        public OrderRepository(ApplicationDbContext db)
+        public OrderRepository(IDbContextFactory<ApplicationDbContext> contextFactory)
         {
-            _db = db;
+            _contextFactory = contextFactory;
         }
         public async Task<OrderHeader> CreateAsync(OrderHeader orderHeader)
         {
+            using var db = _contextFactory.CreateDbContext();
             orderHeader.OrderDate = DateTime.Now;
-            await _db.OrderHeader.AddAsync(orderHeader);
-            await _db.SaveChangesAsync();
+            await db.OrderHeader.AddAsync(orderHeader);
+            await db.SaveChangesAsync();
             return orderHeader;
         }
 
         public async Task<IEnumerable<OrderHeader>> GetAllAsync(string? userId = null)
         {
+            using var db = _contextFactory.CreateDbContext();
             if (!string.IsNullOrEmpty(userId))
             {
-                return await _db.OrderHeader.Where(u => u.UserId == userId).ToListAsync();
+                return await db.OrderHeader.Where(u => u.UserId == userId).ToListAsync();
             }
-            return await _db.OrderHeader.ToListAsync();
+            return await db.OrderHeader.ToListAsync();
         }
 
         public async Task<OrderHeader> GetAsync(int id)
         {
-            return await _db.OrderHeader.Include(u => u.OrderDetails).FirstOrDefaultAsync(u => u.Id == id);
+            using var db = _contextFactory.CreateDbContext();
+            return await db.OrderHeader.Include(u => u.OrderDetails).FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<OrderHeader> UpdateStatusAsync(int orderId, string status)
         {
-            var orderHeader = _db.OrderHeader.FirstOrDefault(u => u.Id == orderId);
+            using var db = _contextFactory.CreateDbContext();
+            var orderHeader = db.OrderHeader.FirstOrDefault(u => u.Id == orderId);
             if (orderHeader != null)
             {
                 orderHeader.Status = status;
-                await _db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             return orderHeader;
         }

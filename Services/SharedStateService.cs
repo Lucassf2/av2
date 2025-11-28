@@ -1,4 +1,4 @@
-﻿namespace YumBlazor.Services
+﻿namespace HamburgueriaBlazor.Services
 {
     public class SharedStateService
     {

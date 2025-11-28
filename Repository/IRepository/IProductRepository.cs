@@ -1,6 +1,6 @@
-﻿using YumBlazor.Data;
+﻿using HamburgueriaBlazor.Data;
 
-namespace YumBlazor.Repository.IRepository
+namespace HamburgueriaBlazor.Repository.IRepository
 {
     public interface IProductRepository
     {

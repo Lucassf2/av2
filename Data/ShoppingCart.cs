@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YumBlazor.Data
+namespace HamburgueriaBlazor.Data
 {
     public class ShoppingCart
     {

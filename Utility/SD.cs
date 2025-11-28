@@ -1,6 +1,6 @@
-﻿using YumBlazor.Data;
+﻿using HamburgueriaBlazor.Data;
 
-namespace YumBlazor.Utility
+namespace HamburgueriaBlazor.Utility
 {
     public static class SD
     {

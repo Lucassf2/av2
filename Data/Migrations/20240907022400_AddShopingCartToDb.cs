@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace YumBlazor.Migrations
+namespace HamburgueriaBlazor.Migrations
 {
     /// <inheritdoc />
     public partial class AddShopingCartToDb : Migration

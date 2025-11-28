@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
-namespace YumBlazor.Components.Account
+namespace HamburgueriaBlazor.Components.Account
 {
     internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
     {
@@ -23,7 +23,9 @@ namespace YumBlazor.Components.Account
             // Prevent open redirects.
             if (!Uri.IsWellFormedUriString(uri, UriKind.Relative))
             {
-                uri = navigationManager.ToBaseRelativePath(uri);
+                var relative = navigationManager.ToBaseRelativePath(uri);
+                // Ensure a leading slash so NavigateTo treats it as an absolute relative path
+                uri = relative.Length == 0 ? "/" : "/" + relative;
             }
 
             // During static rendering, NavigateTo throws a NavigationException which is handled by the framework as a redirect.

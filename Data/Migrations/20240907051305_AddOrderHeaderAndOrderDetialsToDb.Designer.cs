@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using YumBlazor.Data;
+using HamburgueriaBlazor.Data;
 
 #nullable disable
 
-namespace YumBlazor.Migrations
+namespace HamburgueriaBlazor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240907051305_AddOrderHeaderAndOrderDetialsToDb")]
@@ -158,7 +158,7 @@ namespace YumBlazor.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.ApplicationUser", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -223,7 +223,7 @@ namespace YumBlazor.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.Category", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,7 +257,7 @@ namespace YumBlazor.Migrations
                         });
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.OrderDetail", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -290,7 +290,7 @@ namespace YumBlazor.Migrations
                     b.ToTable("OrderDetail");
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.OrderHeader", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.OrderHeader", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,7 +329,7 @@ namespace YumBlazor.Migrations
                     b.ToTable("OrderHeader");
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.Product", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -363,7 +363,7 @@ namespace YumBlazor.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.ShoppingCart", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.ShoppingCart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -401,7 +401,7 @@ namespace YumBlazor.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("YumBlazor.Data.ApplicationUser", null)
+                    b.HasOne("HamburgueriaBlazor.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -410,7 +410,7 @@ namespace YumBlazor.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("YumBlazor.Data.ApplicationUser", null)
+                    b.HasOne("HamburgueriaBlazor.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -425,7 +425,7 @@ namespace YumBlazor.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YumBlazor.Data.ApplicationUser", null)
+                    b.HasOne("HamburgueriaBlazor.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -434,22 +434,22 @@ namespace YumBlazor.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("YumBlazor.Data.ApplicationUser", null)
+                    b.HasOne("HamburgueriaBlazor.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.OrderDetail", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.OrderDetail", b =>
                 {
-                    b.HasOne("YumBlazor.Data.OrderHeader", "OrderHeader")
+                    b.HasOne("HamburgueriaBlazor.Data.OrderHeader", "OrderHeader")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderHeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YumBlazor.Data.Product", "Product")
+                    b.HasOne("HamburgueriaBlazor.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,9 +460,9 @@ namespace YumBlazor.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.Product", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.Product", b =>
                 {
-                    b.HasOne("YumBlazor.Data.Category", "Category")
+                    b.HasOne("HamburgueriaBlazor.Data.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -471,15 +471,15 @@ namespace YumBlazor.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.ShoppingCart", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.ShoppingCart", b =>
                 {
-                    b.HasOne("YumBlazor.Data.Product", "Product")
+                    b.HasOne("HamburgueriaBlazor.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YumBlazor.Data.ApplicationUser", "User")
+                    b.HasOne("HamburgueriaBlazor.Data.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -490,7 +490,7 @@ namespace YumBlazor.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YumBlazor.Data.OrderHeader", b =>
+            modelBuilder.Entity("HamburgueriaBlazor.Data.OrderHeader", b =>
                 {
                     b.Navigation("OrderDetails");
                 });

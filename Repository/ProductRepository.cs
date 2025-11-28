@@ -1,45 +1,48 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using YumBlazor.Data;
-using YumBlazor.Repository.IRepository;
+using HamburgueriaBlazor.Data;
+using HamburgueriaBlazor.Repository.IRepository;
 
-namespace YumBlazor.Repository
+namespace HamburgueriaBlazor.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductRepository(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        public ProductRepository(IDbContextFactory<ApplicationDbContext> contextFactory, IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;
+            _contextFactory = contextFactory;
             _webHostEnvironment = webHostEnvironment;
         }
         public async Task<Product> CreateAsync(Product obj)
         {
-            await _db.Product.AddAsync(obj);
-            await _db.SaveChangesAsync();
+            using var db = _contextFactory.CreateDbContext();
+            await db.Product.AddAsync(obj);
+            await db.SaveChangesAsync();
             return obj;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var obj =await _db.Product.FirstOrDefaultAsync(x => x.Id == id);
+            using var db = _contextFactory.CreateDbContext();
+            var obj = await db.Product.FirstOrDefaultAsync(x => x.Id == id);
             var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('/'));
             if (File.Exists(imagePath))
             {
                 File.Delete(imagePath);
             }
-            if (obj != null) 
+            if (obj != null)
             {
-                _db.Product.Remove(obj);
-               return (await _db.SaveChangesAsync())>0;
+                db.Product.Remove(obj);
+               return (await db.SaveChangesAsync())>0;
             }
             return false;
         }
 
         public async Task<Product> GetAsync(int id)
         {
-            var obj =await _db.Product.FirstOrDefaultAsync(x => x.Id == id);
+            using var db = _contextFactory.CreateDbContext();
+            var obj = await db.Product.FirstOrDefaultAsync(x => x.Id == id);
             if(obj == null)
             {
                 return new Product();
@@ -49,13 +52,15 @@ namespace YumBlazor.Repository
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _db.Product.Include(c=>c.Category).ToListAsync();
+            using var db = _contextFactory.CreateDbContext();
+            return await db.Product.Include(c=>c.Category).ToListAsync();
         }
 
         public async Task<Product> UpdateAsync(Product obj)
         {
-            var objFromDb =await _db.Product.FirstOrDefaultAsync(x => x.Id == obj.Id);
-            if (objFromDb is not null) 
+            using var db = _contextFactory.CreateDbContext();
+            var objFromDb = await db.Product.FirstOrDefaultAsync(x => x.Id == obj.Id);
+            if (objFromDb is not null)
             {
                 objFromDb.Name = obj.Name;
                 objFromDb.Description = obj.Description;
@@ -65,13 +70,11 @@ namespace YumBlazor.Repository
                 objFromDb.SpecialTag = obj.SpecialTag;
 
                 
-                _db.Product.Update(objFromDb);
-                await _db.SaveChangesAsync();
+                db.Product.Update(objFromDb);
+                await db.SaveChangesAsync();
                 return objFromDb;
             }
             return obj;
-            
-
         }
     }
 }

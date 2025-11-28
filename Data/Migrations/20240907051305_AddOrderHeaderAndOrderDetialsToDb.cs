@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace YumBlazor.Migrations
+namespace HamburgueriaBlazor.Migrations
 {
     /// <inheritdoc />
     public partial class AddOrderHeaderAndOrderDetialsToDb : Migration

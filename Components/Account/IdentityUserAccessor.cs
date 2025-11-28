@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using YumBlazor.Data;
+using HamburgueriaBlazor.Data;
 
-namespace YumBlazor.Components.Account
+namespace HamburgueriaBlazor.Components.Account
 {
     internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager)
     {

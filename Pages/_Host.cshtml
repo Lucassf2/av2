@@ -1,0 +1,11 @@
+@page "/"
+@namespace HamburgueriaBlazor.Pages
+@using HamburgueriaBlazor.Components
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<CascadingValue Value="Context">
+    <component type="typeof(HamburgueriaBlazor.Components.App)" render-mode="ServerPrerendered" />
+</CascadingValue>

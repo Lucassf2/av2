@@ -1,38 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YumBlazor.Data;
-using YumBlazor.Repository.IRepository;
+using HamburgueriaBlazor.Data;
+using HamburgueriaBlazor.Repository.IRepository;
 
-namespace YumBlazor.Repository
+namespace HamburgueriaBlazor.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryRepository(ApplicationDbContext db)
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+        public CategoryRepository(IDbContextFactory<ApplicationDbContext> contextFactory)
         {
-            _db = db;
+            _contextFactory = contextFactory;
         }
         public async Task<Category> CreateAsync(Category obj)
         {
-            await _db.Category.AddAsync(obj);
-            await _db.SaveChangesAsync();
+            using var db = _contextFactory.CreateDbContext();
+            await db.Category.AddAsync(obj);
+            await db.SaveChangesAsync();
             return obj;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var obj =await _db.Category.FirstOrDefaultAsync(x => x.Id == id);
-            if (obj != null) 
+            using var db = _contextFactory.CreateDbContext();
+            var obj = await db.Category.FirstOrDefaultAsync(x => x.Id == id);
+            if (obj != null)
             {
-                _db.Category.Remove(obj);
-               return (await _db.SaveChangesAsync())>0;
+                db.Category.Remove(obj);
+                return (await db.SaveChangesAsync()) > 0;
             }
             return false;
         }
 
         public async Task<Category> GetAsync(int id)
         {
-            var obj =await _db.Category.FirstOrDefaultAsync(x => x.Id == id);
-            if(obj == null)
+            using var db = _contextFactory.CreateDbContext();
+            var obj = await db.Category.FirstOrDefaultAsync(x => x.Id == id);
+            if (obj == null)
             {
                 return new Category();
             }
@@ -41,22 +44,22 @@ namespace YumBlazor.Repository
 
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return await _db.Category.ToListAsync();
+            using var db = _contextFactory.CreateDbContext();
+            return await db.Category.ToListAsync();
         }
 
         public async Task<Category> UpdateAsync(Category obj)
         {
-            var objFromDb =await _db.Category.FirstOrDefaultAsync(x => x.Id == obj.Id);
-            if (objFromDb is not null) 
+            using var db = _contextFactory.CreateDbContext();
+            var objFromDb = await db.Category.FirstOrDefaultAsync(x => x.Id == obj.Id);
+            if (objFromDb is not null)
             {
                 objFromDb.Name = obj.Name;
-                _db.Category.Update(objFromDb);
-                await _db.SaveChangesAsync();
+                db.Category.Update(objFromDb);
+                await db.SaveChangesAsync();
                 return objFromDb;
             }
             return obj;
-            
-
         }
     }
 }

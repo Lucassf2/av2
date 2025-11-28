@@ -2,18 +2,23 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
-using YumBlazor.Components;
-using YumBlazor.Components.Account;
-using YumBlazor.Data;
-using YumBlazor.Repository;
-using YumBlazor.Repository.IRepository;
-using YumBlazor.Services;
+using HamburgueriaBlazor.Components;
+using HamburgueriaBlazor.Components.Account;
+using HamburgueriaBlazor.Data;
+using HamburgueriaBlazor.Repository;
+using HamburgueriaBlazor.Repository.IRepository;
+using HamburgueriaBlazor.Services;
+using System;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Enable Blazor Server detailed errors for development
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options => options.DetailedErrors = true);
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
@@ -34,9 +39,25 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
+// Make sure authorization services are registered
+builder.Services.AddAuthorization();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
+// Read retry settings from configuration (if present)
+var retrySection = builder.Configuration.GetSection("ExtensionSettings").GetSection("RetryPolicy");
+int maxRetryCount = retrySection.GetValue<int?>("MaxRetryCount") ?? 5;
+int maxDelayMs = retrySection.GetValue<int?>("MaxDelay") ?? 100;
+var errorNumbersToAdd = retrySection.GetSection("ErrorNumbersToAdd").Get<int[]>() ?? Array.Empty<int>();
+
+// Use DbContextFactory to create DbContext instances on demand (prevents concurrency issues in Blazor Server)
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString, sqlOptions =>
+        sqlOptions.EnableRetryOnFailure(maxRetryCount, TimeSpan.FromMilliseconds(maxDelayMs), errorNumbersToAdd)));
+
+// Provide a scoped ApplicationDbContext created from the factory so Identity and other scoped consumers can still get a scoped DbContext
+builder.Services.AddScoped(sp => sp.GetRequiredService<IDbContextFactory<ApplicationDbContext>>().CreateDbContext());
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -47,11 +68,13 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // show developer exception page in development to see server exceptions
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
@@ -64,12 +87,17 @@ else
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+// Ensure routing and authentication/authorization middleware are enabled
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-// Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
 app.Run();
