@@ -5,6 +5,8 @@
 
 ### Diagrama de Classes do Sistema
 
+[Link para o diagrama](https://drive.google.com/file/d/19z2ypT5sUeyyZvzZIqeQskoBCRKY64bT/view?usp=sharing)
+
 ---
 
 ### Objetivo do Sistema
