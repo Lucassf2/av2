@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HamburgueriaBlazor.Data
 {
@@ -8,18 +10,27 @@ namespace HamburgueriaBlazor.Data
 
         [Required]
         public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
 
         [Required]
         [Display(Name = "Order Total")]
-        public double OrderTotal { get; set; }
+        public decimal OrderTotal { get; set; }
 
         [Required]
+        [Display(Name = "Shipping")]
+        public decimal Shipping { get; set; }
+
+        [Required]
+        [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        [Display(Name = "Payment Method")]
+        public string PaymentMethod { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Status")]
+        public string Status { get; set; } = "Pending";
+
         [Required]
         public string Name { get; set; }
 
@@ -27,8 +38,9 @@ namespace HamburgueriaBlazor.Data
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Email")]
         [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

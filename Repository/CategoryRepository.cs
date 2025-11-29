@@ -7,59 +7,59 @@ namespace HamburgueriaBlazor.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+
         public CategoryRepository(IDbContextFactory<ApplicationDbContext> contextFactory)
         {
             _contextFactory = contextFactory;
         }
+
         public async Task<Category> CreateAsync(Category obj)
         {
             using var db = _contextFactory.CreateDbContext();
-            await db.Category.AddAsync(obj);
+            db.Category.Add(obj);
             await db.SaveChangesAsync();
             return obj;
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            using var db = _contextFactory.CreateDbContext();
-            var obj = await db.Category.FirstOrDefaultAsync(x => x.Id == id);
-            if (obj != null)
-            {
-                db.Category.Remove(obj);
-                return (await db.SaveChangesAsync()) > 0;
-            }
-            return false;
-        }
-
-        public async Task<Category> GetAsync(int id)
-        {
-            using var db = _contextFactory.CreateDbContext();
-            var obj = await db.Category.FirstOrDefaultAsync(x => x.Id == id);
-            if (obj == null)
-            {
-                return new Category();
-            }
-            return obj;
-        }
-
-        public async Task<IEnumerable<Category>> GetAllAsync()
-        {
-            using var db = _contextFactory.CreateDbContext();
-            return await db.Category.ToListAsync();
         }
 
         public async Task<Category> UpdateAsync(Category obj)
         {
             using var db = _contextFactory.CreateDbContext();
-            var objFromDb = await db.Category.FirstOrDefaultAsync(x => x.Id == obj.Id);
-            if (objFromDb is not null)
+            var existing = await db.Category.FirstOrDefaultAsync(c => c.Id == obj.Id);
+            if (existing == null)
             {
-                objFromDb.Name = obj.Name;
-                db.Category.Update(objFromDb);
-                await db.SaveChangesAsync();
-                return objFromDb;
+                return obj;
             }
-            return obj;
+
+            existing.Name = obj.Name;
+            db.Category.Update(existing);
+            await db.SaveChangesAsync();
+            return existing;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            using var db = _contextFactory.CreateDbContext();
+            var entity = await db.Category.FindAsync(id);
+            if (entity == null)
+            {
+                return false;
+            }
+
+            db.Category.Remove(entity);
+            await db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<Category> GetAsync(int id)
+        {
+            using var db = _contextFactory.CreateDbContext();
+            return await db.Category.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Category>> GetAllAsync()
+        {
+            using var db = _contextFactory.CreateDbContext();
+            return await db.Category.AsNoTracking().ToListAsync();
         }
     }
 }
