@@ -46,10 +46,10 @@ Representa uma categoria de produto.
 
 ## Propriedades:
 
-Id
+- `Id` 
 
-Name
-
+- `Name`
+  
 ## Função:
 
 Organiza produtos em grupos (Entrada, Prato, Sobremesa).
@@ -60,21 +60,21 @@ Produto do cardápio.
 
 ## Propriedades:
 
-Id
+- `Id`
 
-Name
+- `Name`
 
-Price
+- `Price`
 
-Description
+- `Description`
 
-SpecialTag
+- `SpecialTag`
 
-ImageUrl
+- `ImageUrl`
 
-CategoryId
+- `CategoryId`
 
-Função:
+## Função:
 
 Exibido na interface e usado no carrinho e pedidos.
 
@@ -84,13 +84,13 @@ Itens adicionados ao carrinho por um usuário.
 
 ## Propriedades:
 
-Id
+- `Id`
 
-UserId
+- `UserId`
 
-ProductId
+- `ProductId`
 
-Count
+- `Count`
 
 ## Função:
 
@@ -102,15 +102,15 @@ Usuário do sistema (herda de IdentityUser).
 
 ## Propriedades herdadas:
 
-Id
+- `Id`
 
-UserName
+- `UserName`
 
-Email
+- `Email`
 
-PhoneNumber
+- `PhoneNumber`
 
-Função:
+## Função:
 
 Autenticação e vinculação dos pedidos.
 
@@ -120,25 +120,25 @@ Informações gerais do pedido.
 
 ## Propriedades:
 
-Id
+- `Id`
 
-UserId
+- `UserId`
 
-OrderTotal
+- `OrderTotal`
 
-Shipping
+- `Shipping`
 
-OrderDate
+- `OrderDate`
 
-PaymentMethod
+- `PaymentMethod`
 
-Status
+- `Status`
 
-Name
+- `Name`
 
-PhoneNumber
+- `PhoneNumber`
 
-Email
+- `Email`
 
 ## Função:
 
@@ -150,15 +150,15 @@ Itens individuais do pedido.
 
 ## Propriedades:
 
-Id
+- `Id`
 
-OrderId
+- `OrderId`
 
-ProductId
+- `ProductId`
 
-Count
+- `Count`
 
-Price
+- `Price`
 
 ## Função:
 
