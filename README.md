@@ -233,41 +233,41 @@ Frete fixo: R$ 19,90
 ### 4. DTOs
 ## 4.1 ProductDTO
 
-Id
+- `Id`
 
-Nome
+- `Nome`
 
-Preco
+- `Preco`
 
-ImagemUrl
+- `ImagemUrl`
 
 ## 4.2 ShoppingCartDTO
 
-ProductId
+- `ProductId`
 
-Quantidade
+- `Quantidade`
 
 ## 4.3 OrderDetailDTO
 
-ProductId
+- `ProductId`
 
-Quantidade
+- `Quantidade`
 
-PrecoUnitario
+- `PrecoUnitario`
 
 ## 4.4 OrderDTO
 
-Id
+- `Id`
 
-UserId
+- `UserId`
 
-Subtotal
+- `Subtotal`
 
-Frete
+- `Frete`
 
-Total
+- `Total`
 
-MetodoPagamento
+- `MetodoPagamento`
 
 ---
 
@@ -277,25 +277,25 @@ Repositórios responsáveis por acessar o banco via Entity Framework:
 
 ## Implementações:
 
-CategoryRepository
+- `CategoryRepository`
 
-ProductRepository
+- `ProductRepository`
 
-ShoppingCartRepository
+- `ShoppingCartRepository`
 
-OrderRepository
+- `OrderRepository`
 
-Cada um contém operações:
+##Cada um contém operações:
 
-Criar
+- `Criar`
 
-Atualizar
+- `Atualizar`
 
-Remover
+- `Remover`
 
-Buscar por ID
+- `Buscar por ID`
 
-Buscar todos
+- `Buscar todos`
 
 Mantém o código organizado e com baixo acoplamento.
 
@@ -314,7 +314,7 @@ Também herda de IdentityDbContext para incluir tabela de usuários.
 ---
 
 ### 7. Regras de Negócio
-Carrinho:
+## Carrinho:
 
 Adicionar produtos
 
