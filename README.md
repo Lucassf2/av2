@@ -3,10 +3,17 @@
 
 - **Lucas Soares Francisco**: 06011048
 - **Arthur fita**: 06008892
+- **Giulia Massafra**: 06005334
+- **Gabriel de Jesus**: 06009870
+- **Lohana Delgado**: 06009900
 
 ### Diagrama de Classes do Sistema
 
 [Link para o diagrama](https://drive.google.com/file/d/19z2ypT5sUeyyZvzZIqeQskoBCRKY64bT/view?usp=sharing)
+
+## Video do Sistema
+
+[Link para o video]()
 
 ---
 
