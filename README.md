@@ -2,6 +2,7 @@
 ## Equipe de Desenvolvimento
 
 - **Lucas Soares Francisco**: 06011048
+- **Arthur fita**: 06008892
 
 ### Diagrama de Classes do Sistema
 
